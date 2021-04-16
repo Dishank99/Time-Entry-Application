@@ -1,0 +1,153 @@
+{% extends 'tasks/main.html' %}
+{% load static %}
+{% block content %}
+
+<style>
+    .profile-pic {
+        max-width: 200px;
+        max-height: 200px;
+        margin: 0 auto;
+        border-radius: 50%;
+    }
+
+    table {
+        width: 100%;
+    }
+
+    th {
+        text-align: center;
+        width: 40%;
+    }
+
+    td {
+        width: 60%;
+    }
+
+    tr {
+        padding: 10px 0 10px 0;
+    }
+
+    input {
+        width: inherit;
+    }
+
+    .btn {
+        margin: 10px 0 10px 0;
+    }
+
+    h2, h4{
+        text-align: center;
+    }
+
+    .stopWatch {
+        height:30%;
+    }
+</style>
+
+<br>
+<hr>
+{% if product %}
+<h3 style="text-align: center">Edit {{ product }}</h3>
+{% else %}
+<h3 style="text-align: center">Add Task</h3>
+{% endif %}
+<hr>
+<div class="row">
+    <div class="col-md-3 card card-body stopWatch">
+        <h4>Your Stop watch</h4>
+        <hr/>
+        <h2 class="time"></h2>
+    </div>
+    <div class="col-md-9">
+        <div class="card card-body">
+
+            <form method="POST" action="">
+                {% csrf_token %}
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        {{ form.name.label_tag }}
+                        {{ form.name }}
+                    </div>
+                    <div class="form-group col-md-6">
+                        {{ form.project.label_tag }}
+                        {{ form.project }}
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        {{ form.start_time.label_tag }}
+                        {{ form.start_time }}
+                    </div>
+                    <div class="form-group col-md-6">
+                        {{ form.end_time.label_tag }}
+                        {{ form.end_time }}
+                    </div>
+                </div>
+                {% if not task.date_time_of_task_ending %}
+                <div class="form-group">
+                    <div class="form-check">
+                        {{ form.is_task_started }}
+                        <label class="form-check-label" for="gridCheck">
+                            {{ form.is_task_started.label }}
+                        </label>
+                    </div>
+                </div>
+                {% endif %}
+                <div class="form-row">
+                    {% if task.date_time_of_task_starting %}
+                        <div class="form-group col-md-6">
+                            {{ form.date_time_of_task_starting.label_tag }}
+                            {{ form.date_time_of_task_starting }}
+                        </div>
+                    {%endif%}
+                    {% if task.date_time_of_task_ending %}
+                    <div class="form-group col-md-6">
+                        {{ form.date_time_of_task_ending.label_tag }}
+                        {{ form.date_time_of_task_ending }}
+                    </div>
+                    {% endif %}
+                </div>
+                {% if not task.name %}
+                <button type="submit" class="btn btn-primary">Add Task</button>
+                {% else %}
+                <button type="submit" class="btn btn-primary">Update Task</button>
+                {% endif %}
+            </form>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    function getDifferenceTime(startingDateTime){
+        let now = new Date()
+        const timeInMiliseconds = new Date(now-startingDateTime)
+        let h,m,s;
+        h = Math.floor(timeInMiliseconds/1000/60/60);
+        m = Math.floor((timeInMiliseconds/1000/60/60 - h)*60);
+        s = Math.floor(((timeInMiliseconds/1000/60/60 - h)*60 - m)*60);
+        s < 10 ? s = `0${s}`: s = `${s}`
+        m < 10 ? m = `0${m}`: m = `${m}`
+        h < 10 ? h = `0${h}`: h = `${h}`
+
+
+        return`${h}:${m}:${s}`
+    }
+
+   
+    let timeElement = document.querySelector('.time')
+    if(!'{{task.name}}' || '{{task.name}}' && '{{task.is_task_started|escapejs}}' === 'False'){
+        timeElement.innerHTML = '00:00:00'
+    }
+    else if('{{task.is_task_started|escapejs}}' === 'False'){
+        const endingDateTime = new Date('{{ task.date_time_of_task_ending|escapejs }}');
+        timeElement.innerHTML = getDifferenceTime(endingDateTime)
+    }
+    else{
+        const startingDateTime = new Date('{{ task.date_time_of_task_starting|escapejs }}');
+        setInterval(()=>{
+            timeElement.innerHTML = getDifferenceTime(startingDateTime)
+        },1000)
+    }
+</script>
+
+
+{% endblock %}

@@ -1,0 +1,64 @@
+{% extends 'tasks/main.html' %}
+{% block content %}
+
+<br>
+
+<div class="row">
+    <div class="col-md-12">
+        <h5>Your Tasks:</h5>
+        <hr>
+        <div class="card card-body">
+            <div class="row" style='margin-bottom:10px'>
+                <div class="col-md-6">
+                    <a class="btn btn-primary  btn-sm btn-block form-control" href="{% url 'add-task-screen' %}">Add New Task</a>
+                </div>
+                <div class="col-md-6">
+                    <form method=GET>
+                        <div class="form-row">
+                            <div class="col">
+                            {{ form.start_date }}
+                            </div>
+                            <div class="col">
+                            {{ form.end_date }}
+                            </div>
+                            <div class="col">
+                                <input class='btn btn-primary  btn-sm btn-block form-control' type='submit' value='Filter'/>
+                            </div>
+                        </div>
+                        
+                    </form>
+                </div>
+            </div>
+            <table class="table table-sm">
+                <tr>
+                    <th>Name</th>
+                    <th>Project</th>
+                    <th>Started At</th>
+                    <th>To be Ended at</th>
+                    <th>Task Status</th>
+                    <th></th>
+                </tr>
+                {% for task in tasks %}
+                    <tr>
+                        <td>{{task.name}}</td>
+                        <td>{{task.project}}</td>
+                        <td>{{task.start_time}}</td>
+                        <td>{{task.end_time}}</td>
+                        {% if task.is_task_started %}
+                            <td>Started</td>
+                        {% else %}
+                            {% if task.date_time_of_task_ending%}
+                            <td>Ended</td>
+                            {% else %}
+                            <td>Not started Yet</td>
+                            {%endif%}
+                        {% endif %}
+                        <td><a class='btn btn-sm btn-info' href="{% url 'update-task-screen' pk=task.pk %}">View</a></td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

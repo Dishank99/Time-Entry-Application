@@ -23,6 +23,5 @@ The project for a particular user can be aaded through admin panel by creating n
 ![ScreenShot](https://github.com/Dishank99/Time-Entry-Application/blob/master/screenshots/Add%20Task.png)
 
 #### Update Page
-Check the 'Do you want to start time' box to start time
-and uncheck it to stop the timer
+Check the 'Do you want to start time' box to start time and Uncheck it to stop the timer
 ![ScreenShot](https://github.com/Dishank99/Time-Entry-Application/blob/master/screenshots/Update%20Task.png)

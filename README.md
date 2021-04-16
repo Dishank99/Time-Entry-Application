@@ -10,4 +10,4 @@ And once the user ends the task the he/she can the the total time taken by him/h
 Note: Feature of adding the project is not implemented as it was ot asked as part of the assignment.
 The project for a particular user can be aaded through admin panel by creating new superuser
 
-(https://github.com/Dishank99/Time-Entry-Application/blob/master/screenshots/Add%20Task.png)
+![ScreenShot](https://github.com/Dishank99/Time-Entry-Application/blob/master/screenshots/Add%20Task.png)

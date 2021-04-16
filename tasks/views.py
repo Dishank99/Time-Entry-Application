@@ -74,14 +74,17 @@ class UpdateTask(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
 
     def form_valid(self, form):
         # logic bfore saving form
-        print(form.cleaned_data)
+        print('form',form.cleaned_data)
+        print('tst',self.object.date_time_of_task_starting)
         is_task_started = form.cleaned_data['is_task_started']
         if not is_task_started: #condition for ending the task
             # if is_task_started checkbox is off then store the task ending time as current time
             self.object.date_time_of_task_ending = timezone.now()
-            form.cleaned_data = self.object.date_time_of_task_starting = timezone.now()
+            print('form tst', form.data)
+            # self.object.date_time_of_task_starting = form.cleaned_data['date_time_of_task_starting']
             print('dte',self.object.date_time_of_task_ending)
         else:
+            print(self.object.date_time_of_task_starting)
             self.object.date_time_of_task_starting = timezone.now()
         return super().form_valid(form)
 

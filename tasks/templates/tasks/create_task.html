@@ -109,7 +109,7 @@
                 </div>
                 {% if not task.name %}
                 <button type="submit" class="btn btn-primary">Add Task</button>
-                {% else %}
+                {% elif not task.date_time_of_task_ending %}
                 <button type="submit" class="btn btn-primary">Update Task</button>
                 {% endif %}
             </form>
@@ -141,7 +141,7 @@
         const endingDateTime = new Date('{{ task.date_time_of_task_ending|escapejs }}');
         timeElement.innerHTML = getDifferenceTime(endingDateTime)
     }
-    else{
+    else {
         const startingDateTime = new Date('{{ task.date_time_of_task_starting|escapejs }}');
         setInterval(()=>{
             timeElement.innerHTML = getDifferenceTime(startingDateTime)
